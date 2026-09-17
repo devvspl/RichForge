@@ -48,6 +48,10 @@
     <link rel="stylesheet" href="{{ asset('cdn/v1/richforge.css') }}">
     <script src="{{ asset('cdn/v1/richforge.js') }}"></script>
 
+    <!-- Alpine.js Core & Plugins -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <style>
         @keyframes fadeUp {
             from {
@@ -87,27 +91,33 @@
             background-image: radial-gradient(rgba(192, 38, 211, 0.4) 2px, transparent 2px);
             background-size: 24px 24px;
         }
+
         .bg-pattern-grid-light {
             background-image: linear-gradient(to right, rgba(192, 38, 211, 0.22) 1.5px, transparent 1.5px),
-                              linear-gradient(to bottom, rgba(192, 38, 211, 0.22) 1.5px, transparent 1.5px);
+                linear-gradient(to bottom, rgba(192, 38, 211, 0.22) 1.5px, transparent 1.5px);
             background-size: 32px 32px;
         }
+
         .bg-pattern-cross-light {
             background-image: radial-gradient(rgba(147, 51, 234, 0.4) 2.5px, transparent 0);
             background-size: 20px 20px;
         }
+
         .bg-pattern-hex-light {
             background-image: radial-gradient(circle at 50% 50%, rgba(219, 39, 119, 0.35) 2.5px, transparent 3px);
             background-size: 24px 24px;
         }
+
         .bg-pattern-diagonal-light {
             background-image: repeating-linear-gradient(45deg, rgba(192, 38, 211, 0.18) 0, rgba(192, 38, 211, 0.18) 2px, transparent 0, transparent 16px);
         }
+
         .bg-pattern-circuit-light {
             background-image: radial-gradient(rgba(192, 38, 211, 0.45) 2.5px, transparent 2.5px),
-                              linear-gradient(to right, rgba(192, 38, 211, 0.2) 1.5px, transparent 1.5px);
+                linear-gradient(to right, rgba(192, 38, 211, 0.2) 1.5px, transparent 1.5px);
             background-size: 36px 36px, 18px 18px;
         }
+
         .bg-pattern-waves-light {
             background-image: radial-gradient(rgba(79, 70, 229, 0.4) 2px, transparent 2px);
             background-size: 24px 24px;
@@ -137,6 +147,7 @@
         }
     </style>
 
+    @stack('head')
     @stack('styles')
 </head>
 
@@ -298,14 +309,12 @@
             <div>
                 <h4 class="font-serif text-slate-900 font-bold mb-4 text-xs uppercase tracking-wider">Products</h4>
                 <ul class="space-y-2.5 text-xs font-medium">
-                    <li><a href="{{ route('playground') }}" class="hover:text-fuchsia-600 transition-colors">Editor
-                            Playground</a></li>
+                    <li><a href="{{ route('playground') }}"
+                            class="hover:text-fuchsia-600 transition-colors">Playground</a></li>
                     <li><a href="{{ route('docs.index') }}" class="hover:text-fuchsia-600 transition-colors">JavaScript
                             SDK</a></li>
-                    <!-- <li><a href="{{ route('public.pricing') }}" class="hover:text-fuchsia-600 transition-colors">Free
-                            Plan</a></li> -->
-                    <li><a href="{{ route('public.demo') }}" class="hover:text-fuchsia-600 transition-colors">Online
-                            Demo</a></li>
+                    <li><a href="{{ route('blog.index') }}" class="hover:text-fuchsia-600 transition-colors">Blogs</a>
+                    </li>
                 </ul>
             </div>
 
@@ -318,8 +327,7 @@
                             class="hover:text-fuchsia-600 transition-colors">API Reference</a></li>
                     <li><a href="{{ route('docs.show', 'upload') }}"
                             class="hover:text-fuchsia-600 transition-colors">Upload API</a></li>
-                    <li><a href="{{ route('blog.index') }}" class="hover:text-fuchsia-600 transition-colors">Developer
-                            Blog</a></li>
+
                 </ul>
             </div>
 
@@ -338,9 +346,9 @@
             <div>
                 <h4 class="font-serif text-slate-900 font-bold mb-4 text-xs uppercase tracking-wider">Legal</h4>
                 <ul class="space-y-2.5 text-xs font-medium">
-                    <li><span class="text-slate-400">Terms of Use</span></li>
-                    <li><span class="text-slate-400">Privacy Policy</span></li>
-                    <li><span class="text-slate-400">Security Policy</span></li>
+                    <li><a href="{{ route('public.terms') }}" class="hover:text-fuchsia-600 transition-colors">Terms of Use</a></li>
+                    <li><a href="{{ route('public.privacy') }}" class="hover:text-fuchsia-600 transition-colors">Privacy Policy</a></li>
+                    <li><a href="{{ route('public.security') }}" class="hover:text-fuchsia-600 transition-colors">Security Policy</a></li>
                 </ul>
             </div>
         </div>

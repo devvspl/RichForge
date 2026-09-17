@@ -18,11 +18,6 @@ class LandingController extends Controller
         return view('public.index', compact('plans', 'recentPosts'));
     }
 
-    public function demo()
-    {
-        return view('public.demo');
-    }
-
     public function pricing()
     {
         $plans = Plan::all();

@@ -47,6 +47,10 @@
     <link rel="stylesheet" href="{{ asset('cdn/v1/richforge.css') }}">
     <script src="{{ asset('cdn/v1/richforge.js') }}"></script>
 
+    <!-- Alpine.js Core & Plugins -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     @stack('styles')
 </head>
 
@@ -81,12 +85,6 @@
                     Projects
                 </a>
 
-                <a href="{{ route('playground') }}"
-                    class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('playground') ? 'bg-fuchsia-50 text-fuchsia-700 font-semibold border border-fuchsia-200/80 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                    <i class="ri-code-box-line text-lg {{ request()->routeIs('playground') ? 'text-fuchsia-600' : 'text-slate-400' }}"></i>
-                    Playground
-                </a>
-
                 <a href="{{ route('uploads.index') }}"
                     class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('uploads.*') ? 'bg-fuchsia-50 text-fuchsia-700 font-semibold border border-fuchsia-200/80 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
                     <i class="ri-image-line text-lg {{ request()->routeIs('uploads.*') ? 'text-fuchsia-600' : 'text-slate-400' }}"></i>
@@ -94,6 +92,7 @@
                 </a>
 
                 <a href="{{ route('docs.index') }}"
+                    target="_blank"
                     class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors">
                     <i class="ri-book-2-line text-lg text-slate-400"></i>
                     Documentation
@@ -104,8 +103,12 @@
                         <span class="px-3 text-[11px] font-bold tracking-wider uppercase text-slate-400 font-mono block mb-1">Admin
                             Console</span>
                         <a href="{{ route('admin.dashboard') }}"
-                            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('admin.*') ? 'bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
-                            <i class="ri-shield-user-line text-lg text-fuchsia-600"></i> Platform Admin
+                            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('admin.dashboard') ? 'bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                            <i class="ri-shield-user-line text-lg {{ request()->routeIs('admin.dashboard') ? 'text-fuchsia-600' : 'text-slate-400' }}"></i> Platform Admin
+                        </a>
+                        <a href="{{ route('admin.blogs.index') }}"
+                            class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors {{ request()->routeIs('admin.blogs.*') ? 'bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-700 font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }}">
+                            <i class="ri-article-line text-lg {{ request()->routeIs('admin.blogs.*') ? 'text-fuchsia-600' : 'text-slate-400' }}"></i> Manage Blogs
                         </a>
                     </div>
                 @endif
@@ -150,9 +153,9 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="{{ route('public.demo') }}" target="_blank"
+                <a href="{{ route('playground') }}" target="_blank"
                     class="text-xs font-semibold px-3 sm:px-4 py-2 rounded-xl bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200 hover:bg-fuchsia-100 transition-colors flex items-center gap-2 shadow-sm">
-                    <i class="ri-external-link-line text-fuchsia-600"></i> <span class="hidden sm:inline">Live Editor</span> Demo
+                    <i class="ri-code-box-line text-fuchsia-600"></i> Playground
                 </a>
             </div>
         </header>
@@ -169,17 +172,17 @@
                 <a href="{{ route('uploads.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors {{ request()->routeIs('uploads.*') ? 'bg-fuchsia-50 text-fuchsia-700 font-semibold border border-fuchsia-200' : 'text-slate-600 hover:bg-slate-100' }}">
                     <i class="ri-image-2-line text-lg text-fuchsia-600"></i> Media Uploads
                 </a>
-                <a href="{{ route('docs.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
+                <a href="{{ route('docs.index') }}" target="_blank" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
                     <i class="ri-book-read-line text-lg text-slate-400"></i> Documentation
-                </a>
-                <a href="{{ route('playground') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
-                    <i class="ri-code-box-line text-lg text-slate-400"></i> Editor Playground
                 </a>
                 @if(Auth::user()->is_admin)
                     <div class="pt-2 border-t border-slate-200">
                         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-1 block">Admin Console</span>
                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-fuchsia-700 hover:bg-fuchsia-50 transition-colors">
                             <i class="ri-shield-user-line text-lg text-fuchsia-600"></i> System Admin
+                        </a>
+                        <a href="{{ route('admin.blogs.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-xl text-fuchsia-700 hover:bg-fuchsia-50 transition-colors">
+                            <i class="ri-article-line text-lg text-fuchsia-600"></i> Manage Blogs
                         </a>
                     </div>
                 @endif
