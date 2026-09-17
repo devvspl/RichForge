@@ -86,7 +86,9 @@
                     <!-- Content + Quality Helpers -->
                     <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <label class="block text-xs font-bold text-slate-700">Full Article Content (Markdown / HTML) <span class="text-red-500">*</span></label>
+                            <label class="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                <i class="ri-quill-pen-line text-fuchsia-600"></i> Full Article Content (RichForge WYSIWYG Editor) <span class="text-red-500">*</span>
+                            </label>
                             <div class="text-[11px] text-slate-500 font-mono flex items-center gap-3">
                                 <span><i class="ri-file-word-line text-fuchsia-600"></i> <strong x-text="wordCount">0</strong> words</span>
                                 <span>&bull;</span>
@@ -94,11 +96,11 @@
                             </div>
                         </div>
 
-                        <textarea name="content"
+                        <textarea id="article-content-editor"
+                                  name="content"
                                   x-model="content"
-                                  rows="14"
                                   required
-                                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-[#1a1a2e] focus:ring-2 focus:ring-fuchsia-500"></textarea>
+                                  class="w-full min-h-[350px] px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-[#1a1a2e] focus:ring-2 focus:ring-fuchsia-500"></textarea>
 
                         <!-- Heading Structure Warning -->
                         <div x-show="content.length > 50 && !hasHeadings" x-transition class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-center gap-2">
@@ -540,6 +542,23 @@
             isCustomDate: true,
             publishedAt: @json(old('published_at', optional($post->published_at)->format('Y-m-d\TH:i') ?? now()->format('Y-m-d\TH:i'))),
             copied: false,
+            editorInstance: null,
+
+            init() {
+                this.$nextTick(() => {
+                    if (window.RichForge) {
+                        this.editorInstance = RichForge.create('#article-content-editor', {
+                            height: 380,
+                            placeholder: 'Write your full article content using the RichForge WYSIWYG editor...',
+                            theme: 'default',
+                            upload: { enabled: true, endpoint: '/api/v1/upload' },
+                            onChange: (html) => {
+                                this.content = html;
+                            }
+                        });
+                    }
+                });
+            },
 
             get formattedPublishDate() {
                 if (!this.publishedAt) return 'Immediately';
