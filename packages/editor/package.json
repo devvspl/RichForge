@@ -1,0 +1,29 @@
+{
+  "name": "@richforge/editor",
+  "version": "1.0.0",
+  "description": "Powerful, modern, embeddable Rich Text Editor SDK by RichForge",
+  "main": "dist/richforge.cjs.js",
+  "module": "dist/richforge.es.js",
+  "unpkg": "dist/richforge.js",
+  "jsdelivr": "dist/richforge.js",
+  "style": "dist/richforge.css",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [
+    "wysiwyg",
+    "rich-text-editor",
+    "editor",
+    "contenteditable",
+    "richforge",
+    "javascript"
+  ],
+  "author": "RichForge Team",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vite": "^5.2.0"
+  }
+}
