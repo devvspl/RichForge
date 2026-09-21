@@ -3,6 +3,7 @@
  */
 import { Toolbar } from '../ui/Toolbar';
 import { LinkModal, type LinkModalData } from '../ui/LinkModal';
+import { ImageModal, type ImageModalData } from '../ui/ImageModal';
 import { sanitizeHTML } from '../utils/sanitizer';
 
 export interface RichForgeOptions {
@@ -426,24 +427,82 @@ export class RichForgeCore {
   }
 
   public promptInsertImage() {
-    const choice = confirm('Click OK to upload an image from your device, or Cancel to enter an Image URL.');
-    if (choice) {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.accept = 'image/*';
-      fileInput.onchange = (e) => {
-        const target = e.target as HTMLInputElement;
-        if (target.files && target.files[0]) {
-          this.handleFileUpload(target.files[0]);
-        }
-      };
-      fileInput.click();
-    } else {
-      const url = prompt('Enter Image URL:');
-      if (url) {
-        this.exec('insertImage', url);
+    this.contentEl.focus();
+
+    let activeImg: HTMLImageElement | null = null;
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      let node: Node | null = selection.getRangeAt(0).startContainer;
+      if (node.nodeType === Node.ELEMENT_NODE && (node as HTMLElement).tagName === 'IMG') {
+        activeImg = node as HTMLImageElement;
+      } else if (node.parentNode && (node.parentNode as HTMLElement).tagName === 'IMG') {
+        activeImg = node.parentNode as HTMLImageElement;
       }
     }
+
+    const initialData: Partial<ImageModalData> = {
+      url: activeImg ? activeImg.src : '',
+      altText: activeImg ? activeImg.alt || '' : '',
+      isEditing: !!activeImg
+    };
+
+    const modal = new ImageModal();
+    modal.show(
+      initialData,
+      (data: ImageModalData) => {
+        this.contentEl.focus();
+
+        if (data.mode === 'upload' && data.file) {
+          if (this.options.upload && this.options.upload.enabled !== false) {
+            this.handleFileUpload(data.file);
+          } else {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const src = e.target?.result as string;
+              if (src) {
+                if (activeImg) {
+                  activeImg.src = src;
+                  if (data.altText) activeImg.alt = data.altText;
+                } else {
+                  const altString = data.altText ? ` alt="${data.altText}"` : '';
+                  this.exec('insertHTML', `<img src="${src}"${altString} />`);
+                }
+                this.syncToTarget();
+                this.updateWordCount();
+                if (this.options.onChange) {
+                  this.options.onChange(this.getHTML());
+                }
+              }
+            };
+            reader.readAsDataURL(data.file);
+          }
+        } else if (data.url) {
+          if (activeImg) {
+            activeImg.src = data.url;
+            if (data.altText) activeImg.alt = data.altText;
+            else activeImg.removeAttribute('alt');
+          } else {
+            const altString = data.altText ? ` alt="${data.altText}"` : '';
+            this.exec('insertHTML', `<img src="${data.url}"${altString} />`);
+          }
+          this.syncToTarget();
+          this.updateWordCount();
+          if (this.options.onChange) {
+            this.options.onChange(this.getHTML());
+          }
+        }
+      },
+      () => {
+        if (activeImg && activeImg.parentNode) {
+          activeImg.parentNode.removeChild(activeImg);
+          this.syncToTarget();
+          this.updateWordCount();
+          if (this.options.onChange) {
+            this.options.onChange(this.getHTML());
+          }
+        }
+      }
+    );
   }
 
   public promptInsertTable() {
