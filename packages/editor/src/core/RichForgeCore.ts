@@ -2,6 +2,7 @@
  * RichForge Core Engine & SDK Implementation
  */
 import { Toolbar } from '../ui/Toolbar';
+import { LinkModal, type LinkModalData } from '../ui/LinkModal';
 import { sanitizeHTML } from '../utils/sanitizer';
 
 export interface RichForgeOptions {
@@ -342,10 +343,86 @@ export class RichForgeCore {
   }
 
   public promptInsertLink() {
-    const url = prompt('Enter Destination URL:', 'https://');
-    if (url) {
-      this.exec('createLink', url);
+    this.contentEl.focus();
+
+    let activeAnchor: HTMLAnchorElement | null = null;
+    const selection = window.getSelection();
+    let selectedText = '';
+
+    if (selection && selection.rangeCount > 0) {
+      selectedText = selection.toString();
+      let node: Node | null = selection.getRangeAt(0).startContainer;
+      while (node && node !== this.contentEl) {
+        if (node.nodeName === 'A') {
+          activeAnchor = node as HTMLAnchorElement;
+          break;
+        }
+        node = node.parentNode;
+      }
     }
+
+    const initialData: LinkModalData = {
+      url: activeAnchor ? activeAnchor.getAttribute('href') || '' : '',
+      text: activeAnchor ? (activeAnchor.textContent || '') : selectedText,
+      openInNewTab: activeAnchor ? activeAnchor.getAttribute('target') === '_blank' : false,
+      rel: (activeAnchor && activeAnchor.getAttribute('rel')?.includes('nofollow')) ? 'nofollow' : 'dofollow',
+      isEditing: !!activeAnchor
+    };
+
+    const modal = new LinkModal();
+    modal.show(
+      initialData,
+      (data: LinkModalData) => {
+        this.contentEl.focus();
+
+        const relParts: string[] = [];
+        if (data.openInNewTab) relParts.push('noopener');
+        if (data.rel === 'nofollow') relParts.push('nofollow');
+        const relAttr = relParts.join(' ');
+        const targetAttr = data.openInNewTab ? '_blank' : null;
+
+        if (activeAnchor) {
+          activeAnchor.setAttribute('href', data.url);
+          if (targetAttr) {
+            activeAnchor.setAttribute('target', targetAttr);
+          } else {
+            activeAnchor.removeAttribute('target');
+          }
+          if (relAttr) {
+            activeAnchor.setAttribute('rel', relAttr);
+          } else {
+            activeAnchor.removeAttribute('rel');
+          }
+          if (data.text) {
+            activeAnchor.textContent = data.text;
+          }
+        } else {
+          const linkText = data.text || selectedText || data.url;
+          const targetString = targetAttr ? ` target="${targetAttr}"` : '';
+          const relString = relAttr ? ` rel="${relAttr}"` : '';
+          const anchorHtml = `<a href="${data.url}"${targetString}${relString}>${linkText}</a>`;
+          
+          this.exec('insertHTML', anchorHtml);
+        }
+
+        this.syncToTarget();
+        this.updateWordCount();
+        if (this.options.onChange) {
+          this.options.onChange(this.getHTML());
+        }
+      },
+      () => {
+        if (activeAnchor) {
+          const textNode = document.createTextNode(activeAnchor.textContent || '');
+          activeAnchor.parentNode?.replaceChild(textNode, activeAnchor);
+          this.syncToTarget();
+          this.updateWordCount();
+          if (this.options.onChange) {
+            this.options.onChange(this.getHTML());
+          }
+        }
+      }
+    );
   }
 
   public promptInsertImage() {
