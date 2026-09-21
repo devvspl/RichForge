@@ -41,8 +41,6 @@ class Project extends Model
                 'height' => 350,
                 'placeholder' => 'Start writing here...',
                 'theme' => 'default',
-                'upload_enabled' => true,
-                'max_file_size_mb' => 10,
                 'dark_mode' => false,
             ]);
 
@@ -81,11 +79,6 @@ class Project extends Model
     public function configuration(): HasOne
     {
         return $this->hasOne(EditorConfiguration::class);
-    }
-
-    public function media(): HasMany
-    {
-        return $this->hasMany(Media::class);
     }
 
     public function usageRecords(): HasMany

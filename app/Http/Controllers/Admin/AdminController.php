@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
-use App\Models\Media;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,9 +14,7 @@ class AdminController extends Controller
     {
         $usersCount = User::count();
         $projectsCount = Project::count();
-        $uploadsCount = Media::count();
         $blogsCount = BlogPost::count();
-        $totalStorageBytes = Media::sum('size');
 
         $recentUsers = User::latest()->take(5)->get();
         $recentProjects = Project::with('user')->latest()->take(5)->get();
@@ -26,9 +23,7 @@ class AdminController extends Controller
         return view('admin.dashboard', compact(
             'usersCount',
             'projectsCount',
-            'uploadsCount',
             'blogsCount',
-            'totalStorageBytes',
             'recentUsers',
             'recentProjects',
             'recentBlogs'
@@ -57,3 +52,4 @@ class AdminController extends Controller
         return back()->with('success', 'Project status updated.');
     }
 }
+

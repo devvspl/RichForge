@@ -53,16 +53,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Community Free',
             'price_monthly' => 0.00,
             'max_projects' => 5,
-            'max_storage_mb' => 1000,
-            'max_uploads_per_month' => 5000,
         ]);
 
         Plan::firstOrCreate(['slug' => 'pro'], [
             'name' => 'Developer Pro',
             'price_monthly' => 29.00,
             'max_projects' => 25,
-            'max_storage_mb' => 25000,
-            'max_uploads_per_month' => 100000,
         ]);
 
         // 4. Seed Documentation Pages
@@ -121,33 +117,12 @@ const editor = RichForge.create("#editor", {
   toolbar: [
     "undo", "redo", "heading", "bold", "italic", "underline",
     "textColor", "alignment", "bulletList", "numberList",
-    "link", "image", "table", "codeBlock", "source", "fullscreen"
+    "link", "codeBlock", "source", "fullscreen"
   ],
-  upload: {
-    enabled: true
-  },
   onChange: (html) => console.log("Updated HTML:", html),
-  onUpload: (file) => console.log("Uploaded file:", file),
   onError: (err) => console.error("Editor error:", err)
 });
 ```',
-            ],
-            [
-                'title' => 'Image & File Upload Setup',
-                'slug' => 'upload',
-                'category' => 'uploads',
-                'order' => 3,
-                'content' => '## Image & File Upload API
-
-RichForge provides built-in drag-and-drop file uploading directly to your secure server storage.
-
-### Supported File Types
-- **Images**: JPG, PNG, GIF, WEBP
-- **Documents**: PDF, DOC, DOCX, XLS, XLSX, CSV, TXT, ZIP
-
-### Server Storage Structure
-Uploaded media is organized safely per project:
-`storage/app/public/projects/{project_id}/uploads/{year}/{month}/{hash}.ext`',
             ],
         ];
 
@@ -182,10 +157,10 @@ Uploaded media is organized safely per project:
                 'published_at' => now()->subDays(2),
             ],
             [
-                'title' => 'Optimizing Image Upload Performance & Cloud Storage',
-                'slug' => 'optimizing-image-upload-performance-cloud-storage',
-                'excerpt' => 'Best practices for automatic image compression, thumbnail generation, and asynchronous uploads.',
-                'content' => 'Handling user-uploaded media in rich text editors requires careful bandwidth management. Learn how RichForge handles inline drag-and-drop uploads asynchronously.',
+                'title' => 'Optimizing SDK Performance & Bundle Size',
+                'slug' => 'optimizing-sdk-performance-bundle-size',
+                'excerpt' => 'Best practices for fast loading times, lightweight asset delivery, and efficient DOM rendering.',
+                'content' => 'Delivering a high-performance rich text editor requires lightweight scripts and minimal DOM overhead. Learn how RichForge ensures rapid load times across web applications.',
                 'author' => 'Infrastructure Team',
                 'published_at' => now()->subDays(3),
             ],

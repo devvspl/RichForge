@@ -26,7 +26,7 @@
         </div>
 
         <!-- Analytics Dashboard Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <!-- Projects Card -->
             <div
                 class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm relative overflow-hidden space-y-2">
@@ -47,29 +47,6 @@
                 </div>
                 <div class="text-3xl font-extrabold text-[#1a1a2e]">{{ number_format($totalApiRequests) }}</div>
                 <p class="text-[11px] text-emerald-600 font-semibold">100% operational status</p>
-            </div>
-
-            <!-- Uploads Card -->
-            <div
-                class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm relative overflow-hidden space-y-2">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                    <span>Total Uploads</span>
-                    <i class="ri-image-line text-lg text-purple-600"></i>
-                </div>
-                <div class="text-3xl font-extrabold text-[#1a1a2e]">{{ number_format($uploadsCount) }}</div>
-                <p class="text-[11px] text-slate-500">Images & documents stored</p>
-            </div>
-
-            <!-- Storage Used Card -->
-            <div
-                class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm relative overflow-hidden space-y-2">
-                <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                    <span>Storage Used</span>
-                    <i class="ri-hard-drive-2-line text-lg text-amber-600"></i>
-                </div>
-                <div class="text-3xl font-extrabold text-[#1a1a2e]">{{ number_format($totalStorageBytes / (1024 * 1024), 2) }}
-                    MB</div>
-                <p class="text-[11px] text-slate-500">Of 1,000 MB free quota</p>
             </div>
         </div>
 

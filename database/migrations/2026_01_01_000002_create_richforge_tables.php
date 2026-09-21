@@ -51,54 +51,33 @@ return new class extends Migration
             $table->text('placeholder')->nullable();
             $table->string('theme')->default('default');
             $table->json('toolbar_json')->nullable();
-            $table->boolean('upload_enabled')->default(true);
-            $table->integer('max_file_size_mb')->default(10);
-            $table->json('allowed_extensions_json')->nullable();
             $table->boolean('dark_mode')->default(false);
             $table->timestamps();
         });
 
-        // 5. Media Management
-        Schema::create('media', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('project_id')->constrained()->onDelete('cascade');
-            $table->string('filename');
-            $table->string('original_name');
-            $table->string('mime_type');
-            $table->bigInteger('size'); // in bytes
-            $table->string('dimensions')->nullable();
-            $table->string('disk_path');
-            $table->string('public_url');
-            $table->timestamps();
-        });
-
-        // 6. Usage Analytics
+        // 5. Usage Analytics
         Schema::create('usage_records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->date('date');
             $table->bigInteger('api_requests')->default(0);
             $table->bigInteger('editor_loads')->default(0);
-            $table->bigInteger('uploads_count')->default(0);
-            $table->bigInteger('storage_bytes')->default(0);
             $table->timestamps();
 
             $table->unique(['project_id', 'date']);
         });
 
-        // 7. Billing Plans (Billing-ready)
+        // 6. Billing Plans (Billing-ready)
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
             $table->decimal('price_monthly', 8, 2)->default(0.00);
             $table->integer('max_projects')->default(5);
-            $table->bigInteger('max_storage_mb')->default(1000);
-            $table->bigInteger('max_uploads_per_month')->default(5000);
             $table->timestamps();
         });
 
-        // 8. Subscriptions
+        // 7. Subscriptions
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -108,7 +87,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 9. Blog Posts
+        // 8. Blog Posts
         Schema::create('blog_posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -120,7 +99,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 10. Documentation Pages
+        // 9. Documentation Pages
         Schema::create('documentation_pages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -139,7 +118,6 @@ return new class extends Migration
         Schema::dropIfExists('subscriptions');
         Schema::dropIfExists('plans');
         Schema::dropIfExists('usage_records');
-        Schema::dropIfExists('media');
         Schema::dropIfExists('editor_configurations');
         Schema::dropIfExists('project_domains');
         Schema::dropIfExists('project_api_keys');

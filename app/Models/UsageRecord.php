@@ -15,8 +15,6 @@ class UsageRecord extends Model
         'date',
         'api_requests',
         'editor_loads',
-        'uploads_count',
-        'storage_bytes',
     ];
 
     protected $casts = [

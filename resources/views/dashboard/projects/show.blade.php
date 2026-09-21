@@ -77,23 +77,13 @@
                     </select>
                 </div>
 
-                <div>
+                <div class="md:col-span-2">
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Placeholder Text</label>
                     <input type="text" name="placeholder" value="{{ old('placeholder', $project->configuration->placeholder ?? 'Start typing...') }}" class="w-full px-4 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-xl text-[#1a1a2e] text-sm focus:outline-none focus:border-fuchsia-500">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Max Upload File Size (MB)</label>
-                    <input type="number" name="max_file_size_mb" value="{{ old('max_file_size_mb', $project->configuration->max_file_size_mb ?? 10) }}" min="1" max="100" required class="w-full px-4 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-xl text-[#1a1a2e] text-sm focus:outline-none focus:border-fuchsia-500">
                 </div>
             </div>
 
             <div class="flex items-center gap-6 pt-4 border-t border-slate-200">
-                <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
-                    <input type="checkbox" name="upload_enabled" value="1" {{ ($project->configuration->upload_enabled ?? true) ? 'checked' : '' }} class="rounded border-slate-300 text-fuchsia-600 focus:ring-0">
-                    Enable Image & File Upload API
-                </label>
-
                 <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
                     <input type="checkbox" name="dark_mode" value="1" {{ ($project->configuration->dark_mode ?? false) ? 'checked' : '' }} class="rounded border-slate-300 text-fuchsia-600 focus:ring-0">
                     Force Dark Mode UI

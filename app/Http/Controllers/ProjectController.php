@@ -38,7 +38,7 @@ class ProjectController extends Controller
 
     public function show(int $id)
     {
-        $project = Auth::user()->projects()->with(['configuration', 'apiKeys', 'domains', 'media'])->findOrFail($id);
+        $project = Auth::user()->projects()->with(['configuration', 'apiKeys', 'domains'])->findOrFail($id);
 
         return view('dashboard.projects.show', compact('project'));
     }
@@ -51,8 +51,6 @@ class ProjectController extends Controller
             'height' => 'required|integer|min:150|max:1000',
             'placeholder' => 'nullable|string',
             'theme' => 'required|string',
-            'upload_enabled' => 'boolean',
-            'max_file_size_mb' => 'required|integer|min:1|max:100',
             'dark_mode' => 'boolean',
         ]);
 
@@ -62,8 +60,6 @@ class ProjectController extends Controller
                 'height' => $validated['height'],
                 'placeholder' => $validated['placeholder'] ?? '',
                 'theme' => $validated['theme'],
-                'upload_enabled' => $request->has('upload_enabled'),
-                'max_file_size_mb' => $validated['max_file_size_mb'],
                 'dark_mode' => $request->has('dark_mode'),
             ]
         );

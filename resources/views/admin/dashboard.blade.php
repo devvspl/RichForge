@@ -11,7 +11,7 @@
                 <i class="ri-shield-keyhole-line"></i> Platform Administration
             </div>
             <h2 class="text-2xl font-extrabold text-[#1a1a2e]">RichForge System Control Console</h2>
-            <p class="text-xs text-slate-600 mt-1">Global platform overview, registered developer accounts, project statuses, blog posts, and media storage metrics.</p>
+            <p class="text-xs text-slate-600 mt-1">Global platform overview, registered developer accounts, project statuses, and blog posts.</p>
         </div>
         <div class="flex flex-wrap gap-2.5">
             <a href="{{ route('admin.users') }}" class="px-3.5 py-2 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
@@ -27,7 +27,7 @@
     </div>
 
     <!-- System Stats Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
             <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
                 <span>Total Users</span>
@@ -53,24 +53,6 @@
             </div>
             <span class="text-3xl font-extrabold text-[#1a1a2e] block">{{ number_format($blogsCount) }}</span>
             <span class="text-[11px] text-indigo-600 font-semibold">Published posts</span>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Media Uploads</span>
-                <i class="ri-image-2-line text-lg text-pink-600"></i>
-            </div>
-            <span class="text-3xl font-extrabold text-[#1a1a2e] block">{{ number_format($uploadsCount) }}</span>
-            <span class="text-[11px] text-slate-500">Stored images & files</span>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-semibold uppercase">
-                <span>Storage Usage</span>
-                <i class="ri-hard-drive-2-line text-lg text-amber-600"></i>
-            </div>
-            <span class="text-3xl font-extrabold text-[#1a1a2e] block">{{ number_format($totalStorageBytes / (1024 * 1024), 2) }} MB</span>
-            <span class="text-[11px] text-slate-500">Server disk usage</span>
         </div>
     </div>
 

@@ -16,19 +16,13 @@ class EditorConfiguration extends Model
         'placeholder',
         'theme',
         'toolbar_json',
-        'upload_enabled',
-        'max_file_size_mb',
-        'allowed_extensions_json',
         'dark_mode',
     ];
 
     protected $casts = [
         'toolbar_json' => 'array',
-        'allowed_extensions_json' => 'array',
-        'upload_enabled' => 'boolean',
         'dark_mode' => 'boolean',
         'height' => 'integer',
-        'max_file_size_mb' => 'integer',
     ];
 
     public function project(): BelongsTo

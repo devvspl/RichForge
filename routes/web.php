@@ -6,7 +6,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ApiKeyController;
 use App\Http\Controllers\DomainController;
-use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PlaygroundController;
 use App\Http\Controllers\Public\LandingController;
 use App\Http\Controllers\Public\DocsController;
@@ -66,10 +65,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/projects/{id}/domains', [DomainController::class, 'store'])->name('domains.store');
     Route::post('/projects/{id}/domains/{domainId}/toggle', [DomainController::class, 'toggle'])->name('domains.toggle');
     Route::delete('/projects/{id}/domains/{domainId}', [DomainController::class, 'destroy'])->name('domains.destroy');
-
-    // Media Uploads Manager
-    Route::get('/uploads', [MediaController::class, 'index'])->name('uploads.index');
-    Route::delete('/uploads/{id}', [MediaController::class, 'destroy'])->name('uploads.destroy');
 });
 
 // Admin Panel (Protected + Admin check)

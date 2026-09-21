@@ -14,7 +14,5 @@ class Plan extends Model
         'slug',
         'price_monthly',
         'max_projects',
-        'max_storage_mb',
-        'max_uploads_per_month',
     ];
 }
